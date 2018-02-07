@@ -48,6 +48,9 @@ Options (= is mandatory):
 - version
         A specific version of a library to install [Default: None]
 
+- force
+        When True force install even if package already exists or remove package ignoring deps
+
 Notes:  Requires conda to already be installed. Will look under the home
         directory for a conda executable.
 ```
