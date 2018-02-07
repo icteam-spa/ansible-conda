@@ -127,7 +127,7 @@ def check_package_installed(command_runner, conda, name, version):
     :raises CondaUnexpectedOutputError: if the JSON returned by Conda was unexpected
     """
     output, stderr = run_conda_package_command(
-        command_runner, name, version, [conda, 'install', '--json', '--dry-run', get_install_target(name, version)])
+        command_runner, name, version, [conda, 'install', '--json', '--dry-run', '--no-update-dependencies', get_install_target(name, version)])
 
     if 'message' in output and output['message'] == 'All requested packages already installed.':
         return True
@@ -360,7 +360,7 @@ def _main():
             },
             'channels': {'default': None, 'required': False},
             'executable': {'default': None, 'required': False},
-            'force': {'default': False, 'required': False, 'type': 'bool')
+            'force': {'default': False, 'required': False, 'type': 'bool'},
             'extra_args': {'default': None, 'required': False, 'type': 'str'}
         },
         supports_check_mode=True)
@@ -369,7 +369,7 @@ def _main():
     name = module.params['name']
     state = module.params['state']
     version = module.params['version']
-    force = module.param['force']
+    force = module.params['force']
 
     if state == 'latest' and version is not None:
         module.fail_json(msg='`version` must not be set if `state == "latest"` (`latest` upgrades to newest version)')
